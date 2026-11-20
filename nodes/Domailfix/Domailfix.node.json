@@ -2,7 +2,7 @@
 	"node": "n8n-nodes-domailfix.domailfix",
 	"nodeVersion": "1.0",
 	"codexVersion": "1.0",
-	"categories": ["Marketing", "Sales", "Data & Storage"],
+	"categories": ["Marketing & Content", "Sales", "Data & Storage"],
 	"resources": {
 		"credentialDocumentation": [{ "url": "https://domailfix.com/api" }],
 		"primaryDocumentation": [{ "url": "https://github.com/domailfix/n8n-nodes-domailfix#readme" }]

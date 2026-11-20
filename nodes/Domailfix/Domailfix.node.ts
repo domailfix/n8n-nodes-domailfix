@@ -8,7 +8,7 @@ export class Domailfix implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Domailfix',
 		name: 'domailfix',
-		icon: 'file:domailfix.svg',
+		icon: { light: 'file:domailfix.svg', dark: 'file:domailfix.svg' },
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
