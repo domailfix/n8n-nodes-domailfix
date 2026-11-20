@@ -1,0 +1,64 @@
+{
+  "name": "Verify a lead with Domailfix and route it",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "When clicking Test workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "a1", "name": "email", "value": "test@example.com", "type": "string" }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Lead (replace with your form or CRM trigger)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "resource": "email",
+        "operation": "verify",
+        "email": "={{ $json.email }}"
+      },
+      "name": "Domailfix",
+      "type": "n8n-nodes-domailfix.domailfix",
+      "typeVersion": 1,
+      "position": [680, 300],
+      "credentials": { "domailfixApi": { "id": "", "name": "Domailfix API" } }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "deliverable",
+              "operator": { "type": "string", "operation": "equals" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "name": "Deliverable?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [900, 300]
+    }
+  ],
+  "connections": {
+    "When clicking Test workflow": { "main": [[{ "node": "Lead (replace with your form or CRM trigger)", "type": "main", "index": 0 }]] },
+    "Lead (replace with your form or CRM trigger)": { "main": [[{ "node": "Domailfix", "type": "main", "index": 0 }]] },
+    "Domailfix": { "main": [[{ "node": "Deliverable?", "type": "main", "index": 0 }]] }
+  }
+}
