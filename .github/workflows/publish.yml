@@ -1,5 +1,6 @@
 # Publishes the node to npm with a provenance statement when a GitHub release (v1.0.0, v1.0.1 …) is published.
-# n8n requires this for verified community nodes. Add an npm granular access token as the repository secret NPM_TOKEN.
+# n8n requires this for verified community nodes. npm trusts this workflow through a Trusted Publisher
+# connection (npm package settings → Trusted Publisher → GitHub Actions, workflow publish.yml), so no token is needed.
 name: Publish to npm
 
 on:
@@ -19,11 +20,11 @@ jobs:
         with:
           node-version: 22
           registry-url: 'https://registry.npmjs.org'
+      # Trusted publishing needs npm 11.5.1 or newer.
+      - run: npm install -g npm@latest
       - run: npm install
       - run: npm run lint
       - run: npm run build
       # --ignore-scripts: lint and build already ran above; this skips the prepublishOnly guard, which only allows
       # publishing through `n8n-node release` on a developer's computer.
       - run: npm publish --provenance --access public --ignore-scripts
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
